@@ -99,7 +99,7 @@ The result is called by:
 ```{r scrc_cytof_2, include=TRUE, eval=TRUE }
 print(model)
 ```
-To plot fractional response curve is plotted by calling
+To plot fractional response curve call:
 ```{r scrc_cytof_3, include=TRUE, eval=TRUE, cache=TRUE }
 FRA::plotFRC(model = model) 
 ```
