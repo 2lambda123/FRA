@@ -114,11 +114,11 @@ or directly via e-mail: karol.nienaltowski@gmail.com.
 
 The FRA package provides their functionalities with three main functions:
 
-1. `FRA()`-  fractional response analysis  performed for heterogeneous, multivariate, and dynamic measurements. Function computes: (i) the fractional response curve that quantifies fractions of cells that exhibit different responses to a change in dose, or any other experimental conditionand and (ii) the cell-to-cell heterogeneity, i.e., fraction of cells exposed to one dose that exhibits responses in the range characteristic for other doses.
+1. `FRA()`-  fractional response analysis  performed for heterogeneous, multivariate, and dynamic measurements. Function computes: (i) the fractional response curve (FRC) that quantifies fractions of cells that exhibit different responses to a change in dose, or any other experimental conditionand and (ii) the cell-to-cell heterogeneity, i.e., fraction of cells exposed to one dose that exhibits responses in the range characteristic for other doses.
 
 2. `plotHeterogeneityPieCharts()` - visualises the cell-to-cell heterogeneity structure using table of pie charts. Each pie chart describes the fraction of cells exposed to one dose (rows)  that expibits responses typical for either of the doses (columns).
 
-3. `plotFRC()` -  visualises the fractional response curve (FRC) and the cell-to-cell heterogenity. FRC is represented as a line, whereas heterogeneity is represented as  colour band.
+3. `plotFRC()` -  visualises FRC and the cell-to-cell heterogenity. FRC is represented as a line, whereas heterogeneity is represented as  colour band.
 
 Morevoer, package contains examplary datasets, that were used in the publication:
 
