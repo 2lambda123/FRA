@@ -98,7 +98,7 @@ The result is called by:
 ```{r scrc_cytof_2, include=TRUE, eval=TRUE }
 print(model)
 ```
-To plot fractional response curve is plotted by calling
+To plot fractional response curve call:
 ```{r scrc_cytof_3, include=TRUE, eval=TRUE, cache=TRUE }
 FRA::plotFRC(model = model) 
 ```
@@ -197,5 +197,5 @@ All problems, issues and bugs can be reported here:
 or directly via e-mail: karol.nienaltowski a t gmail.com.
 
 # Licence
- FRA is released under the GNU licence and is freely available. A comprehensive documentation is available in directory [`Manual.pdf`](https://github.com/sysbiosig/SLEMI/blob/master/Manual.pdf).
+ FRA is released under the GNU licence and is freely available. The documentation is available in directory [`Manual.pdf`](https://github.com/sysbiosig/FRA/blob/master/Manual.pdf).
 
