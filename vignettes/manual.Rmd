@@ -5,7 +5,7 @@ author:
 - K. Nienałtowski^[author and maintainer, please contact via karol.nienaltowski a t gmail.com], R.E. Rigby, J.Walczak, K.Zakrzewska, J.Rehwinkel, M. Komorowski
 date: "`r format(Sys.time(), '%d %B %Y')`"
 abstract:
-  R- package FRA is designed to performs fractional response analysi of single-cell responses as presented in the manuscript Nienałtowski et al. "Fractional response analysis reveals logarithmic cytokine responses in cellular populations" submitted (2020).
+  R- package FRA is designed to perform fractional response analysis of single-cell responses as presented in the manuscript Nienałtowski et al. "Fractional response analysis reveals logarithmic cytokine responses in cellular populations".
   # The package FRA is designed to estimate channel capacity between finite state input and multidimensional continuous output from experimental data. For efficient computations, it uses an iterative algorithm based on logistic regression. In addition, functions to estimate mutual information and calculate probabilities of correct discrimination between a pair of input values are implemented. The method is published in PLOS Computational Biology [@jetka2019].
 #output: html_vignette
 output:
