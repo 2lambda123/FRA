@@ -84,7 +84,7 @@ Morevoer, package contains examplary datasets, that were used in the publication
 Responses $y^i_j$ are assumed to be measured for a finite set of stimuli levels $x_1,x_2,\ldots,x_m$. The responses $y^i_j$ can be multidimensional.
 
 ### Example of usage 
-Below, we present an application of `FRA` package to the case of the multivariate dose-responses to IFN-a2a in **monocytes CD14+ CD16-** described in the article. Fractional response analysis are computed by calling function: 
+Below, we present an application of `FRA` package to the case of the multivariate dose-responses to IFN-a2a in **monocytes CD14+** described in the article. Fractional response analysis are computed by calling function: 
 ```{r scrc_cytof_1, include=FALSE, cache=TRUE, eval=TRUE }
 library(FRA)
 model <-
@@ -198,5 +198,5 @@ All problems, issues and bugs can be reported here:
 or directly via e-mail: karol.nienaltowski a t gmail.com.
 
 # Licence
- FRA is released under the GNU licence and is freely available. A comprehensive documentation is available in directory [`Manual.pdf`](https://github.com/sysbiosig/SLEMI/blob/master/Manual.pdf).
+ FRA is released under the GNU licence and is freely available. The documentation is available in directory [`Manual.pdf`](https://github.com/sysbiosig/FRA/blob/master/Manual.pdf).
 
