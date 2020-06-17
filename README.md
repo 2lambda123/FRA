@@ -20,7 +20,7 @@ Apart from a base installation of R, SLEMI requires the following R packages:
 2. for estimation
   
   + nnet
-  + doParallel (if parallel computation are needed)
+  + doParallel 
   
 3. for visualisation
 
@@ -28,7 +28,6 @@ Apart from a base installation of R, SLEMI requires the following R packages:
   + ggthemes
   + grDevices
   + viridis
-  
   
 4. for data handling
 
@@ -61,11 +60,11 @@ All packages that are required will be installed or updated automatically.
  
 The FRA package provides their functionalities with three main functions:
 
-1. `FRA()`-  fractional response analysis  performed for heterogeneous, multivariate, and dynamic measurements. Function computes: (i) the fractional response curve that quantifies fractions of cells that exhibit different responses to a change in dose, or any other experimental conditionand and (ii) the cell-to-cell heterogeneity, i.e.fraction of cells exposed to one dose that exhibits responses in the range characteristic for other doses.
+1. `FRA()`-  fractional response analysis  performed for heterogeneous, multivariate, and dynamic measurements. Function computes: (i) the fractional response curve (FRC) that quantifies fractions of cells that exhibit different responses to a change in dose, or any other experimental conditionand and (ii) the cell-to-cell heterogeneity, i.e.fraction of cells exposed to one dose that exhibits responses in the range characteristic for other doses.
 
 2. `plotHeterogeneityPieCharts()` - visualises the cell-to-cell heterogeneity structure using table of pie charts. Each pie chart describes the fraction of cells exposed to one dose (rows)  that expibits responses typical for either of the doses (columns).
 
-3. `plotFRC()`  visualises the fractional response curve (FRC) and the cell-to-cell heterogenity. FRC is represented as a line, whereas heterogeneity is represented as  colour band.
+3. `plotFRC()`- visualises FRC and the cell-to-cell heterogenity. FRC is represented as a line, whereas heterogeneity is represented as  colour band.
 
 Morevoer, package contains examplary datasets, that were used in the publication:
 
@@ -84,7 +83,7 @@ Morevoer, package contains examplary datasets, that were used in the publication
 Responses $y^i_j$ are assumed to be measured for a finite set of stimuli levels $x_1,x_2,\ldots,x_m$. The responses $y^i_j$ can be multidimensional.
 
 ### Example of usage 
-Below, we present an application of `FRA` package to the case of the multivariate dose-responses to IFN-a2a in **monocytes CD14+ CD16-** described in the article. Fractional response analysis are computed by calling function: 
+Below, we present an application of `FRA` package to the case of the multivariate dose-responses to IFN-a2a in **monocytes CD14+** described in the article. Fractional response analysis are computed by calling function: 
 ```{r scrc_cytof_1, include=FALSE, cache=TRUE, eval=TRUE }
 library(FRA)
 model <-

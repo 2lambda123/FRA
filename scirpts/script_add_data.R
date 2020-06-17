@@ -81,6 +81,7 @@ devtools::use_data(
 ####
 library(devtools)
 data.fra.nfkb.all <- data.itrc.nfkb.all
+data.fra.cytof <- FRA::data.fra.cytof %>% dplyr::filter(Stim != 50)
 usethis::use_data(
   data.fra.cytof,
   overwrite = TRUE)

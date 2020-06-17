@@ -34,7 +34,7 @@ knitr::opts_chunk$set(fig.pos="h")
 ## Requirements - Software
 The main software requirement is the installation of the R environment (version: >= 3.2), which can be downloaded from [R project website](https://www.r-project.org) and is distributed for all common operating systems.  We tested the package in  R environment installed on Windows 7, 10; Mac OS X 10.11 - 10.13 and Ubuntu 18.04 with no significant differences in the performance. The use of a dedicated Integrated development environment (IDE), e.g. [RStudio](https://www.rstudio.com) is recommended. 
 
-Apart from a base installation of R, SLEMI requires the following R packages:
+Apart from a base installation of R, FRA requires the following R packages:
 
 1. for installation 
 
@@ -84,17 +84,17 @@ All packages that are required will be installed or updated automatically.
 
 The package implements methods published, please cite: 
 
-Niena\l{}towski K, Rigby R.E., Walczak J., Zakrzewska K.E., Rehwinkel J, and Komorowski M (2020) Fractional response analysis reveals logarithmic cytokine responses in cellular populations.
+Nienałtowski K, Rigby R.E., Walczak J., Zakrzewska K.E., Rehwinkel J, and Komorowski M (2020) Fractional response analysis reveals logarithmic cytokine responses in cellular populations.
 
 All problems, issues and bugs can be reported here:
 
 > [https://github.com/sysbiosig/FRA/issues](https://github.com/sysbiosig/FRA/issues)
 
-or directly via e-mail: karol.nienaltowski a t gmail.com.
+or directly via e-mail: karol.nienaltowski@gmail.com.
 
 \newpage
 
-# Package functionalities
+<!-- # Package functionalities -->
 
 <!--  SLEMI package is designed to estimate information-theoretic measures between a discrete-valued input, $X$, and multivariate, continuous output, $Y$.  In a typical experiment aimed to quantify information flow a given signaling system, input values $x_1\leq x_2 \ldots... \leq x_m$, ranging from 0 to saturation are considered. -->
 
@@ -108,7 +108,7 @@ or directly via e-mail: karol.nienaltowski a t gmail.com.
 <!--  $$C^* = max_{P(X)} MI(X,Y)$$ -->
 <!--  Information capacity is expressed in bits and $2^{C^*}$ can be interpreted as the maximal number of inputs that the system can effectively resolve. For details regarding information theory or its application in systems biology please see Methods section and Supplementary Information of the corresponding paper [@jetka2019]. -->
 
-* Define FRA and confusion matrix
+<!-- * Define FRA and confusion matrix -->
 
 # Package structure
 
@@ -118,7 +118,7 @@ The FRA package provides their functionalities with three main functions:
 
 2. `plotHeterogeneityPieCharts()` - visualises the cell-to-cell heterogeneity structure using table of pie charts. Each pie chart describes the fraction of cells exposed to one dose (rows)  that expibits responses typical for either of the doses (columns).
 
-3. `plotFRC()`  visualises the fractional response curve (FRC) and the cell-to-cell heterogenity. FRC is represented as a line, whereas heterogeneity is represented as  colour band.
+3. `plotFRC()` -  visualises the fractional response curve (FRC) and the cell-to-cell heterogenity. FRC is represented as a line, whereas heterogeneity is represented as  colour band.
 
 Morevoer, package contains examplary datasets, that were used in the publication:
 
@@ -139,7 +139,7 @@ Morevoer, package contains examplary datasets, that were used in the publication
 The function `FRA()` takes `data` in the form of the object `data.frame` with a specifc structure of rows and columns. 
 Responses $y^i_j$ are assumed to be measured for a finite set of stimuli levels $x_1,x_2,\ldots,x_m$. The responses $y^i_j$ can be multidimensional. Usually, experimental dataset is represented as a table with rows and columns organized as shown in Figure 1.
 
-```{r data_pdf3, fig.cap="Standard output graph presenting probabilities of correct discrimination between each pair of input values.", ,echo=FALSE, fig.pos="h",out.height="9cm"}
+```{r data_pdf3, fig.cap="Structure of an experimental dataset required for running FRA", ,echo=FALSE, fig.pos="h",out.height="9cm"}
 # All defaults
 knitr::include_graphics("table_data.pdf")
 ```
@@ -150,7 +150,7 @@ knitr::include_graphics("table_data.pdf")
 <!-- ``` -->
 
 ## Data example 
-An example of the input `data.frame`, which contains the multivariate dose-responses to IFN-a2a in **monocytes CD14+ CD16-** presented in the **MP** is available within the package under the variable `FRA::data.scrc.cytof`.  It has the following format
+An example of the input `data.frame`, which contains the multivariate dose-responses to IFN-a2a in **monocytes CD14+** presented in the **MP** is available within the package under the variable `FRA::data.scrc.cytof`.  It has the following format
 
 ```{r init, include=FALSE}
 library(FRA)
@@ -166,7 +166,7 @@ where each row represents measurements of a single-cell, the column named `Stim`
 head(FRA::data.itrc.cytof)
 ```
 
-# Fractional response analysis
+# Basic usage
 Then, main function is called as:
 ```c
 model <-  FRA::FRA(
@@ -185,9 +185,9 @@ The result of the function is an object of class `FRAModel`, that contains resul
 ```c
 print(model)
 ```
-To get the FRA (cumulative frequency) and cell-to-cell heterogeneity (confusion matrix) please call `model$frc` and `model$heterogeneity`, respectively.
+To get FRA (cumulative frequency) and cell-to-cell heterogeneity please call `model$frc` and `model$heterogeneity`, respectively.
 
-The result can be visualised using one of our plots, as it was presented in the publication.
+Results can be visualised using one of our plots, as it was presented in the publication.
 
 FRA can be plotted using function:
 
@@ -195,14 +195,15 @@ FRA can be plotted using function:
 plotFRC(model)
 ```
 
+
 The cell-to-cell heterogeneity can be plotted using function:
 ```c
-plot(model)
+plotHeterogeneityPieCharts(model)
 ```
 
-## Example of usage 
-Below, we present an application of `FRA` package to the case of the multivariate dose-responses to IFN-a2a in **monocytes CD14+ CD16-** described in the article. Fractional response analysis are computed by calling function: 
-```{r scrc_cytof_1, include=FALSE, cache=TRUE, eval=TRUE }
+## Example 
+Below, we present an application of `FRA` package to the case of the multivariate dose-responses to IFN-a2a in **monocytes CD14+** described in the article. Fractional response analysis are computed by calling function: 
+```{r scrc_cytof_1, include=FALSE, cache=TRUE, eval=TRUE}
 library(FRA)
 model <-
   FRA(
@@ -210,24 +211,25 @@ model <-
     signal = "Stim",
     response = c("pSTAT1", "pSTAT3", "pSTAT4", "pSTAT5", "pSTAT6"),
     parallel_cores = 1,
-    bootstrap.number = 2)
+    bootstrap.number = 8)
 ```
 The result is called by:
 ```{r scrc_cytof_2, include=TRUE, eval=TRUE }
 print(model)
 ```
+
 To plot fractional response curve is plotted by calling
-```{r scrc_cytof_3, include=TRUE, eval=TRUE, cache=TRUE }
+```{r scrc_cytof_3, include=TRUE, eval=TRUE, cache=TRUE,fig.align="center" }
 FRA::plotFRC(model = model) 
 ```
 To obtain the cell-to-cell heterogeneity as a pie charts call:
-```{r scrc_cytof_4, include=TRUE, eval=TRUE, cache=TRUE }
+```{r scrc_cytof_4, include=TRUE, eval=TRUE, cache=TRUE, fig.align="center" }
 FRA::plotHeterogeneityPieCharts(model = model)
 ```
 
 \clearpage
 
-# Details of SCRC packgae functions 
+# Details of FRA packgae functions 
 ## Fractional response analysis
 In order to perform fractional response analysis of single-cell data call 
 ```c
@@ -263,6 +265,7 @@ The function returns the `FRAModel` object that contains among others
 ## plotFRC
 In order to visualise fractional response curve call 
 ```c
+plotFRC(
     model,
     title_ =
       "Fractional Response Curve",
