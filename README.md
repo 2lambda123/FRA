@@ -42,7 +42,8 @@ Each of the above packages can be installed by executing
 
 in the R console. 
 
-Importantly, during installation availability of the above packages will be verified and missing packages will be automatically installed.
+Importantly, during installation availability of the above packages will be verified and missing packages will be automatically installed. Installation of the software and R packages takes ~1-2 hours.
+ 
 
 ## Installation
 
@@ -54,7 +55,7 @@ The package can be directly installed from [GitHub](https://github.com/sysbiosig
  
 > `install_github("sysbiosig/FRA")`
  
-All packages that are required will be installed or updated automatically.
+All packages that are required will be installed or updated automatically. Installation of `FRA` package take ~ 5 minutes.
  
 # Basic usage 
  
@@ -128,13 +129,13 @@ model <-FRA(
 
 The required arguments are:
 
-* `data` - a data.frame or data.table object in a wide format that describe response (might be multidimmensional) of the samples to the signal (now only one dimmensional); data.frame data consists columns of names defined by sample, signal (optional), and response; each row represents a response of one sample to the input signal; column signal define the input signal; columns response define the multidimmensional (optional) response to the input signal; column sample specify identifaction of sample; if sample is not defined then sample is identified by row number; 
+* `data` - a data.frame or data.table object in a wide format that describe response (might be multidimmensional) of the samples to the signal (one dimmensional, numeric); data.frame data consists numeric columns of names defined by signal, response,  and sample (optional); each row represents a response of one sample to the input signal; column signal define the input signal; columns response define the multidimmensional response to the input signal; column sample specify identifaction of sample; if sample is not defined then sample is identified by a row number; 
 * `signal` - character, specify name of the column that represents the input signal; 	
 * `response` vector of characters, that specify names of the columns that represents the output response;
 * `sample`	- character (optional), specify name of the column that consists identifiaction of sample;
 * `parallel_cores` - specify number of cores used for computations, `default = 1`
-* `bootstrap.number` (`default = 1`) - numeric, `bootstrap.number >= 1`, specify nymber of bootstrap samples used for estimation SCRC and cell-to-cell heterogeneity. It is crucial to choose this value carefully, as it induce estimator accuracy. The proper value depends on data dimmensions and density distribution. The practice indicates that the higher number of bootstrap samples are required to obtain satisfying level of the accuracy of the cell-to-cell heterogeneity estimator. The `bootstrap.number = 1` denotes that one bootstrap sampling is performed to guarantee equipotence between number of cells for each dose, that is assumed in method;
-*  `bootstrap.sample_size` - numeric, size of the bootstrap sample;
+* `bootstrap.number` (`default = 1`) - numeric, `bootstrap.number >= 1`, specify number of bootstrap samples used for estimation FRC and cell-to-cell heterogeneity. It is crucial to choose this value carefully, as it induce estimator accuracy. The proper value depends on data dimmensions and density distribution. The practice indicates that the higher number of bootstrap samples are required to obtain satisfying level of the accuracy of the cell-to-cell heterogeneity estimator. The `bootstrap.number = 1` denotes that one bootstrap sampling is performed to guarantee equipotence between number of cells for each dose, that is assumed in method;
+*  `bootstrap.sample_size` (`default = 1000`) - numeric, size of the bootstrap sample;
 * `lr_maxit` (`default = 1000`) - a maximum number of iterations of fitting step of logistic regression algorithm in `nnet` function. If a warning regarding lack of convergence of logistic model occurs, should be set to a larger value (possible if data is more complex or of a very high dimension); 
 * `MaxNWts` (`default = 5000`) - a maximum number of parameters in logistic regression model. A limit is set to prevent accidental over-loading the memory. It should be set to a larger value in case of exceptionally high dimension of the output data or very high number of input values. In principle, logistic model requires fitting $(m-1)\cdot(d+1)$ parameters, where $m$ is the number of unique input values and $d$ is the dimension of the output.
 
@@ -180,14 +181,14 @@ plotHeterogeneityPieCharts(
 ```
 * `model`	- FRAModel object return by FRA function
 * `max.signal` - maximal signal for which the cell-to-cell heterogeneity is plotted, `default  = max(signal)`
-*`title_`	- character, specify title of plot, `default = "Cell-to-cel heterogeneity"`
+* `title_`	- character, specify title of plot, `default = "Cell-to-cel heterogeneity"`
 * `ylab_` - character, label of y axes, `default = "dose"`
 * `xlab_`	- character, label of x axes, `default = "dose for which response is typical"`
 
 # Citation
 The package implements methods described in the article: 
 
-Niena\l{}towski K, Rigby R.E., Walczak J., Zakrzewska K.E., Rehwinkel J, and Komorowski M (2020) Fractional response analysis reveals logarithmic cytokine responses in cellular populations.
+Nienałtowski K, Rigby R.E., Walczak J., Zakrzewska K.E., Rehwinkel J, and Komorowski M (2020) Fractional response analysis reveals logarithmic cytokine responses in cellular populations.
 
 # Support
 All problems, issues and bugs can be reported here:
@@ -197,5 +198,5 @@ All problems, issues and bugs can be reported here:
 or directly via e-mail: karol.nienaltowski a t gmail.com.
 
 # Licence
- FRA is released under the GNU licence and is freely available. The documentation is available in directory [`Manual.pdf`](https://github.com/sysbiosig/FRA/blob/master/Manual.pdf).
+ FRA is released under the GNU 3.0 licence and is freely available. The documentation is available in directory [`Manual.pdf`](https://github.com/sysbiosig/FRA/blob/master/Manual.pdf).
 
