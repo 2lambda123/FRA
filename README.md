@@ -119,7 +119,7 @@ To obtain the cell-to-cell heterogeneity as a pie charts call:
 ```{r scrc_cytof_4, include=TRUE, eval=TRUE, cache=TRUE }
 > FRA::plotHeterogeneityPieCharts(model = model)
 ```
-![Pie-chart of the cell-to-cell heterogeneity structure](https://github.com/sysbiosig/FRA/blob/master/FRA_het?raw=true)
+![Pie-chart of the cell-to-cell heterogeneity structure](https://github.com/sysbiosig/FRA/blob/master/FRA_het.png?raw=true)
 
 # Documentation
 ## Fractional response analysis
