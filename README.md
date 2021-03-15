@@ -115,6 +115,8 @@ To plot fractional response curve call:
 ```{r scrc_cytof_3, include=TRUE, eval=TRUE, cache=TRUE }
 > FRA::plotFRC(model = model) 
 ```
+![Fractional response curve](https://github.com/sysbiosig/FRA/blob/master/FRA_frc.png?raw=true)
+
 To obtain the cell-to-cell heterogeneity as a pie charts call:
 ```{r scrc_cytof_4, include=TRUE, eval=TRUE, cache=TRUE }
 > FRA::plotHeterogeneityPieCharts(model = model)
