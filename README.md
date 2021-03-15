@@ -93,9 +93,9 @@ model <-
     signal = "Stim",
     response = c("pSTAT1", "pSTAT3", "pSTAT4", "pSTAT5", "pSTAT6"),
     parallel_cores = 1,
-    bootstrap.number = 2)
+    bootstrap.number = 32)
 ```
-The result is called by:
+Time of the computations strongly depends on number of bootstrap samples specified by parameter `bootstrap.number`. Here, for `bootstrap.number == 32`, computation have taken ~10 minutes. The result is called by:
 ```{r scrc_cytof_2, include=TRUE, eval=TRUE }
 print(model)
 ```
