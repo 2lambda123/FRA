@@ -86,8 +86,8 @@ Responses $y^i_j$ are assumed to be measured for a finite set of stimuli levels 
 ### Example of usage 
 Below, we present an application of `FRA` package to the case of the multivariate dose-responses to IFN-a2a in **monocytes CD14+** described in the article. Fractional response analysis are computed by calling function: 
 ```{r scrc_cytof_1, include=FALSE, cache=TRUE, eval=TRUE }
-library(FRA)
-model <-
+> library(FRA)
+> model <-
   FRA(
     data = FRA::data.fra.cytof,
     signal = "Stim",
@@ -97,16 +97,29 @@ model <-
 ```
 Time of the computations strongly depends on number of bootstrap samples specified by parameter `bootstrap.number`. Here, for `bootstrap.number == 32`, computation have taken ~10 minutes. The result is called by:
 ```{r scrc_cytof_2, include=TRUE, eval=TRUE }
-print(model)
+> print(model)
+FRAModel 
+formula : Stim ~ pSTAT1+pSTAT3+pSTAT4+pSTAT5+pSTAT6 
+FRA : 
+    0    25   250  2500 25000 
+ 1.00  1.73  2.52  3.10  3.17 
+confusion matrix : 
+         0   25  250 2500 25000
+0     0.91 0.08 0.00 0.00  0.00
+25    0.19 0.77 0.05 0.00  0.00
+250   0.02 0.14 0.68 0.11  0.05
+2500  0.01 0.01 0.23 0.34  0.40
+25000 0.01 0.01 0.19 0.31  0.47
 ```
 To plot fractional response curve call:
 ```{r scrc_cytof_3, include=TRUE, eval=TRUE, cache=TRUE }
-FRA::plotFRC(model = model) 
+> FRA::plotFRC(model = model) 
 ```
 To obtain the cell-to-cell heterogeneity as a pie charts call:
 ```{r scrc_cytof_4, include=TRUE, eval=TRUE, cache=TRUE }
-FRA::plotHeterogeneityPieCharts(model = model)
+> FRA::plotHeterogeneityPieCharts(model = model)
 ```
+![Pie-chart of the cell-to-cell heterogeneity structure](https://github.com/sysbiosig/FRA/blob/master/FRA_het?raw=true)
 
 # Documentation
 ## Fractional response analysis
