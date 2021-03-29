@@ -161,6 +161,7 @@ The function returns the `FRAModel` object that contains among others
 ## Fractional Response Curve 
 In order to visualise fractional response curve call 
 ```c
+plotFRC(
     model,
     title_ =
       "Fractional Response Curve",
