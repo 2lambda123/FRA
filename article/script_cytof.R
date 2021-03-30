@@ -2,11 +2,10 @@
 ### Main plots for CyTOF data presented in the Manuscript and SI
 ### ###
 
-# Please download cytof data from : and save the umder diredctory CYTOF_PATH
+# Please download cytof data from : 10.5281/zenodo.4646713 
+# and save the umder diredctory CYTOF_PATH
 CYTOF_PATH <- "path/to/cytof/files" # define CYTOF_PATH
 CYTOF_PATH <- "data" # define CYTOF_PATH
-
-
 
 path <- paste(CYTOF_PATH, "data.fra.cytof.all_cell_types.rds", sep = "/")
 data.cytof.all_cell_types <- readRDS(path)
