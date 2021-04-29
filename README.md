@@ -1,6 +1,7 @@
 # Fractional Response Analysis (FRA) - R package
 R- package FRA is designed to perform fractional response analysi of single-cell responses as presented in the manuscript Nienałtowski et al. "Fractional response analysis reveals logarithmic cytokine responses in cellular populations" Submitted (2020).
  A comprehensive documentation is available in directory [`Manual.pdf`](https://github.com/sysbiosig/FRA/blob/master/Manual.pdf).
+ In the folder ['article'](https://github.com/sysbiosig/FRA/blob/master/article) you can find scripts for computing FRA for datasets described in the manuscript.
 
 # Setup
  ## Requirements - Hardware
@@ -69,7 +70,7 @@ The FRA package provides their functionalities with three main functions:
 
 Morevoer, package contains examplary datasets, that were used in the publication:
 
-1. `data.fra.cytof`
+1. `data.fra.cytof` - only part that describe responses of monocytes CD14+
 
 2. `data.fra.ps1`
 
