@@ -34,7 +34,8 @@ plotFRC <-
     } else if(class(model) !=  "FRAModel"){
       stop("model must be an object of class FRAModel")
     }
-
+    signal_ <- as.name(model$signal)
+    class_ <- as.name(model$class)
     model <-
       CalculateConfusion(
         model,
@@ -51,7 +52,7 @@ plotFRC <-
     colors <- theme.signal$colors
     col.rescaled <- theme.signal$col.rescaled
     col.to.rescale <- theme.signal$col.to.rescale
-
+    
     g.plot <-
       ggplot2::ggplot() +
       GetPlotTheme(...) +
@@ -62,7 +63,7 @@ plotFRC <-
     group.SCRC <- "type"
     ggplot.data.SCRC <-
       model$confusion.waves %>%
-      dplyr::filter_(paste(model$signal, "==", model$class)) %>%
+      dplyr::filter(!!signal_ == !!class_) %>%
       dplyr::left_join(
         signals.rescale.df,
         by = model$signal

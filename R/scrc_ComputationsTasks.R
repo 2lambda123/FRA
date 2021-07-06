@@ -4,6 +4,7 @@ GetComputationsTasks <-
     computations.bootstrap.samples,
     computations.bootstrap.test.sample_ = FALSE,
     computations.bootstrap.test.number_ = NULL,
+    computations.max_signal_only = FALSE,
     ...
   ){
 #    print(as.list(match.call()))
@@ -12,8 +13,11 @@ GetComputationsTasks <-
       function(
         signal.list,
         ...){
-
-        foreach::foreach(signal_ = signal.list) %do% {
+        signal.list.max = signal.list
+        if(computations.max_signal_only){
+          signal.list.max = max(signal.list)
+        }
+        foreach::foreach(signal_ = signal.list.max) %do% {
           computation_task <- signal.list[which(signal.list <= signal_)]
           if(length(computation_task) <= 1 ){
             return(NULL)

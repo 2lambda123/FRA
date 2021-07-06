@@ -4,14 +4,12 @@ GetLevelsDf.Class <-
     signal.list,
     ...){
     colnames = c()
+    class_ <- as.name(model$class)
     data.frame(
       class_factor = signal.list,
       class_level  = 1:length(signal.list)) %>%
-      dplyr::rename_(
-        .dots =
-          setNames(
-            nm = model$class,
-            object = "class_factor")) %>%
+      dplyr::rename(
+       !!class_ := class_factor) %>%
       return()
   }
 
@@ -21,13 +19,11 @@ GetLevelsDf.Signal <-
     signal.list,
     ...){
     colnames = c()
+    signal_ <- as.name(model$signal)
     data.frame(
       signal_factor = signal.list,
       signal_level  = 1:length(signal.list)) %>%
-      dplyr::rename_(
-        .dots =
-          setNames(
-            nm = model$signal,
-            object = "signal_factor")) %>%
+      dplyr::rename(
+          !!signal_ := signal_factor) %>%
       return()
   }

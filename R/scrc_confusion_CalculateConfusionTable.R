@@ -5,23 +5,25 @@ CalculateConfusionTable <-
     signal.list,
     ...
   ){
+    groupby_columns_ <- sapply(c(model$signal,
+                          "max.signal",
+                          "bootstrap",
+                          cols.list$computation.task), as.name)
     (model$specifictiy.bootstrap.table %>%
-       dplyr::group_by_(
-         model$signal,
-         "max.signal",
-         "bootstrap",
-         cols.list$computation.task) %>%
+       dplyr::group_by(
+         !!!groupby_columns_) %>%
        dplyr::summarise(
          counts.sum = sum(counts)))
 
+    group_columns_ <-  sapply(c(model$signal,
+                                cols.list$max.signal,
+                                cols.list$bootstrap,
+                                cols.list$computation.task), as.name)
     model$specifictiy.bootstrap.table %>%
       dplyr::left_join(
         (model$specifictiy.bootstrap.table %>%
-           dplyr::group_by_(
-             model$signal,
-             cols.list$max.signal,
-             cols.list$bootstrap,
-             cols.list$computation.task) %>%
+           dplyr::group_by(
+             !!!group_columns_) %>%
            dplyr::summarise(
              counts.sum = sum(counts)
              # .dots =
@@ -39,12 +41,13 @@ CalculateConfusionTable <-
       ) ->
       model$confusion.bootstrap.table
 
-
+    groupby_columns_ <- sapply(c(model$signal,
+                                 model$class,
+                                 cols.list$max.signal),
+                               as.name)
     model$confusion.bootstrap.table %>%
-      dplyr::group_by_(
-        model$signal,
-        model$class,
-        cols.list$max.signal
+      dplyr::group_by(
+        !!!groupby_columns_
       ) %>%
       dplyr::summarise(
         prob = mean(prob.bootstrap),
@@ -71,9 +74,13 @@ CalculateConfusionTable <-
       c(model$signal,
         model$class,
         cols.list$max.signal)
+    signal_ <- as.name(model$signal)
+    class_ <- as.name(model$class)
     signal_class.df %>%
-      dplyr::filter_(paste(model$signal, "<=", "max.signal")) %>%
-      dplyr::filter_(paste(model$class, "<=", "max.signal")) ->
+      # dplyr::filter_(paste(model$signal, "<=", "max.signal")) %>%
+      # dplyr::filter_(paste(model$class, "<=", "max.signal")) ->
+      dplyr::filter(!!signal_ <= max.signal ) %>%
+      dplyr::filter(!!class_ <= max.signal ) ->
       signal_class.df
     signal_class.df$inner_join_id_ <-
       1:nrow(signal_class.df)
@@ -92,20 +99,25 @@ CalculateConfusionTable <-
                  signal_class.inner_join.df$inner_join_id_)],] ->
       signal_class.df
 
+    select_columns_ <- sapply(c(model$signal,
+                              model$class,
+                              cols.list$max.signal), as.name)
+    groupby_columns_ <- sapply(c(cols.list$max.signal), as.name)
     model$confusion.table %>%
       rbind(
         (signal_class.df %>%
-           dplyr::select_(
-             paste("c(",
-                   paste(model$signal,
-                         model$class,
-                         cols.list$max.signal,
-                         sep = ","),
-                   ")")
-           ) %>%
+           # dplyr::select_(
+           #   paste("c(",
+           #         paste(model$signal,
+           #               model$class,
+           #               cols.list$max.signal,
+           #               sep = ","),
+           #         ")")) %>%
+           dplyr::select(!!!select_columns_) %>%
            dplyr::left_join(
              y = model$confusion.table %>%
-               dplyr::group_by_(cols.list$max.signal) %>%
+               #dplyr::group_by_(cols.list$max.signal) %>%
+               dplyr::group_by(!!!groupby_columns_) %>%
                dplyr::summarise(prob = 0, prob.sd = 0),
              by = cols.list$max.signal
            ))) ->
