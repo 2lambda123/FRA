@@ -1,3 +1,4 @@
+#### ps1 ps23
 ### ###
 ### manuscript U937 ps1 ps3
 ### ### 
@@ -5,8 +6,8 @@ library(tidyverse)
 library(foreach)
 library(data.table)
 
-bootstrap.number <- 4
-parallel_cores <- 1
+bootstrap.number <- 16
+parallel_cores <- 2
 
 #### U937 IFNG pSTAT1 ####
 
@@ -25,7 +26,7 @@ model.ps1 <- FRA::FRA(FRA::data.fra.ps1,
                       bootstrap.number = bootstrap.number,
                       parallel_cores = parallel_cores)
 g.ps1.frc <- FRA::plotFRC(model.ps1, rescale.fun= rescale.fun)
-g.ps1.fra_pie_charts <- FRA::plotHeterogeneityPieCharts(model.ps1, rescale.fun= rescale.fun)
+g.ps1.fra_pie_charts <- FRA::plotHeterogeneityPieCharts(model.ps1)
 
 print(model.ps1)
 print(g.ps1.frc)
@@ -41,7 +42,6 @@ ps3.control <- (df.ps3.sum %>% dplyr::filter(stimulation == 0))[["response"]]
 df.ps3.sum %>% 
   dplyr::mutate(response.nrm = response/ps3.control, response.nrm.log = log(response/ps3.control)) ->
   df.ps3.sum
-parallel_cores <- 2
 
 rescale.fun = function(x){log(x = x, base = 10)}
 model.ps3 <- FRA::FRA(FRA::data.fra.ps3, 

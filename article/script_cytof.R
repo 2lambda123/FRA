@@ -7,6 +7,7 @@
 CYTOF_PATH <- "path/to/cytof/files" # define CYTOF_PATH
 CYTOF_PATH <- "data" # define CYTOF_PATH
 
+
 path <- paste(CYTOF_PATH, "data.fra.cytof.all_cell_types.rds", sep = "/")
 data.cytof.all_cell_types <- readRDS(path)
 head(data.cytof.all_cell_types)
@@ -130,7 +131,7 @@ model.list <- list()
 frc.list <- list()
 fra_pie_charts.list <- list()
 parallel_cores = 2
-bootstrap.number = 64
+bootstrap.number = 8
 response_ = c("pSTAT1", "pSTAT3", "pSTAT4", "pSTAT5", "pSTAT6")
 cell_type.list <- names(data.cytof.list)
 for( cell_type in cell_type.list) {
@@ -146,7 +147,7 @@ for( cell_type in cell_type.list) {
   fra_pie_charts.list[[cell_type]] <- FRA::plotHeterogeneityPieCharts(model = model.list[[cell_type]], title_ = cell_type)
 }
 
-plot_grid(plotlist = frc.list, 
+cowplot::plot_grid(plotlist = frc.list, 
           ncol = length(cell_type.list)) ->
   g.frc
 print(g.frc)

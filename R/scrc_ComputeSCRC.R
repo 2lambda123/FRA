@@ -97,7 +97,7 @@ ComputeSCRC <-
               #   nm = cols.list$counts)
               ) %>%
             dplyr::rename(
-               !!signal_ := !!df.res$signal
+               !!signal_ := df.res$signal
             ) %>%
             # dplyr::rename_(
             #   .dots = setNames(nm = model$signal,
@@ -109,8 +109,8 @@ ComputeSCRC <-
           expand.grid(signal.grid = computation.task$signal,
                       class.grid = computation.task$signal) %>%
             dplyr::rename(
-              !!model$signal := signal.grid,
-              !!model$class  := class.grid) ->
+              !!signal_ := signal.grid,
+              !!class_  := class.grid) ->
             # dplyr::rename_(
             #   .dots =
             #     setNames(
@@ -134,12 +134,13 @@ ComputeSCRC <-
             dplyr::select(-inner_join_id_)->
             signal_class.df
           rm(signal_class.inner_join.df)
-
+            
+          counts_ <- as.name(cols.list$counts)
           df.confusion %>%
             rbind(
              signal_class.df %>%
                  dplyr::mutate(
-                   !!cols.list$counts :=  0
+                   !!counts_ :=  0
                      ))  ->
                 df.confusion
 
