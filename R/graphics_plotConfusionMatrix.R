@@ -17,6 +17,8 @@ plotHeterogeneityPieCharts <-
     title_ = "Cell-to-cel heterogeneity",
     ylab_ ="dose",
     xlab_ = "dose for which response is typical",
+    theme.signal = NULL,
+    fill.guide_ = "none",
     ...
   ){
     confusion.signal = 
@@ -33,7 +35,7 @@ plotHeterogeneityPieCharts <-
     x_ = "1"
     y_ = "prob"
     fill_ = "fill"
-
+    alpha_ = "alpha"
     # # ggplot2::model$confusion.table
     # # df.confusion.fill <- df.confusion$fill
     # # names(df.confusion.fill) <- df.confusion$fill
@@ -56,17 +58,43 @@ plotHeterogeneityPieCharts <-
 
 
 
+    # df.confusion <-
+    #   model$confusion.table %>%
+    #   dplyr::filter(!!confusion.signal.syms) %>%
+    #   dplyr::mutate(
+    #     fill =
+    #       dplyr::if_else(!!quo(!!sym(model$signal) == !!sym(model$class)),
+    #                      ggthemes::canva_palettes[["Subdued and proffesional"]][2],
+    #                      ggthemes::canva_palettes[["Subdued and proffesional"]][1]))
     df.confusion <-
       model$confusion.table %>%
       dplyr::filter(!!confusion.signal.syms) %>%
       dplyr::mutate(
-        fill =
+        alpha =
           dplyr::if_else(!!quo(!!sym(model$signal) == !!sym(model$class)),
-                         ggthemes::canva_palettes[["Subdued and proffesional"]][2],
-                         ggthemes::canva_palettes[["Subdued and proffesional"]][1]))
-
-    fill.values <- df.confusion$fill
-    names(fill.values) <- fill.values
+                         0.75, #ggthemes::canva_palettes[["Subdued and proffesional"]][2],
+                         0.5#ggthemes::canva_palettes[["Subdued and proffesional"]][1]))
+          ))
+    alpha.values <- (df.confusion %>% dplyr::distinct(alpha))[["alpha"]]
+    names(alpha.values) <- alpha.values
+    
+    alpha_ <- "factor(alpha)"
+    if(is.null(theme.signal)){
+      theme.signal <-
+        FRA::GetRescaledSignalTheme(
+          model = model,
+          ...
+        )
+    }
+    signals.rescale.df <- theme.signal$signals.rescale.df
+    colors <- theme.signal$colors
+    col.rescaled <- theme.signal$col.rescaled
+    col.to.rescale <- theme.signal$col.to.rescale
+    
+    
+    fill_ <- paste("factor(", model$class, ")")
+    #fill.values <- df.confusion$fill
+    #names(fill.values) <- fill.values
 
     ggplot2::ggplot(
         df.confusion,
@@ -74,7 +102,8 @@ plotHeterogeneityPieCharts <-
           ggplot2::aes_string(
             x = x_,
             y = y_,
-            fill = fill_
+            fill = fill_,
+            alpha = alpha_ 
           )
       ) +
       ggplot2::geom_bar(stat = "identity") +
@@ -84,11 +113,18 @@ plotHeterogeneityPieCharts <-
       ggplot2::coord_polar(theta = "y", start = 0) +
       ggplot2::ylim(c(0,1)) +
       theme_scrc.confusion_matrix(theme.title_size = 12) +
-      ggplot2::ylab(ylab_) +
-      ggplot2::xlab(xlab_) +
+      ggplot2::ylab(xlab_) +
+      ggplot2::xlab(ylab_) +
       ggplot2::ggtitle(title_) +
-      ggplot2::scale_fill_manual(values = fill.values,
-                                 guide = "none"
-                                 ) %>%
+      # ggplot2::scale_fill_manual(values = fill.values,
+      #                            guide = "none"
+      #                            )  + 
+      ggplot2::scale_fill_manual(
+        guide = fill.guide_,
+        name = xlab_,
+        values = colors,
+        labels = signals.rescale.df[[model$signal]]
+      ) +
+      ggplot2::scale_alpha_manual(values =  alpha.values, guide = "none") %>%
     return()
   }

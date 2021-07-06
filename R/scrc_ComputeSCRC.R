@@ -7,9 +7,11 @@ ComputeSCRC <-
            SCRC.DEBUG = FALSE,
            ...
   ) {
+    signal_ <- as.name(model$signal)
+    class_ <- as.name(model$class)
     signal.list <- (model$data %>%
-                     dplyr::arrange_(model$signal) %>%
-                     dplyr::distinct_(model$signal))[[model$signal]]
+                     dplyr::arrange(!!signal_) %>%
+                     dplyr::distinct(!!signal_))[[model$signal]]
 
     cols.list <-
       list(
@@ -39,6 +41,7 @@ ComputeSCRC <-
     foreach::foreach(
       computation.task =
         compuatations.task.list) %dopar% {
+          #computation.task = compuatations.task.list[[1]]
           df.res <-
             GetLogRegParameters(
               data =
@@ -74,37 +77,46 @@ ComputeSCRC <-
                     newdata = df.res.newdata$data)
 
           df.res.newdata$data$class <- as.numeric(as.character(lr.fit))
-
+          select_columns_ <- c(df.res.newdata$signal, model$class)
+          group_columns_ <- sapply(c(df.res.newdata$signal, model$class), as.name)
           df.res.newdata$data %>%
-            dplyr::select_(paste("c(",
-                                 df.res.newdata$signal,
-                                 ",",
-                                 model$class,
-                                 ")")) %>%
-            dplyr::group_by_(
-              df.res.newdata$signal,
-              model$class) %>%
+            dplyr::select(!!!select_columns_) %>%
+            dplyr::group_by(!!!group_columns_) %>%
+            # dplyr::select_(paste("c(",
+            #                      df.res.newdata$signal,
+            #                      ",",
+            #                      model$class,
+            #                      ")")) %>%
+            # dplyr::group_by_(
+            #   df.res.newdata$signal,
+            #   model$class) %>%
             dplyr::summarise(
               counts = n()
               # .dots = setNames(
               #   object = "n()",
               #   nm = cols.list$counts)
               ) %>%
-            dplyr::rename_(
-              .dots = setNames(nm = model$signal,
-                               object = df.res$signal)) %>%
+            dplyr::rename(
+               !!signal_ := !!df.res$signal
+            ) %>%
+            # dplyr::rename_(
+            #   .dots = setNames(nm = model$signal,
+            #                    object = df.res$signal)) %>%
             dplyr::ungroup() ->
             df.confusion
 
-          expand.grid(signal_ = computation.task$signal,
-                      class_ = computation.task$signal) %>%
-            dplyr::rename_(
-              .dots =
-                setNames(
-                  nm = c(model$signal, model$class),
-                  object = c("signal_", "class_")
-                )
-            ) ->
+          
+          expand.grid(signal.grid = computation.task$signal,
+                      class.grid = computation.task$signal) %>%
+            dplyr::rename(
+              !!model$signal := signal.grid,
+              !!model$class  := class.grid) ->
+            # dplyr::rename_(
+            #   .dots =
+            #     setNames(
+            #       nm = c(model$signal, model$class),
+            #       object = c("signal_", "class_")
+            #     ) ) ->
             signal_class.df
           signal_class.df$inner_join_id_ <- 1:nrow(signal_class.df)
 
@@ -126,13 +138,9 @@ ComputeSCRC <-
           df.confusion %>%
             rbind(
              signal_class.df %>%
-                 dplyr::mutate_(
-                   .dots =
-                     setNames(
-                       nm = cols.list$counts,
-                       object = 0
-                     )
-                 )) ->
+                 dplyr::mutate(
+                   !!cols.list$counts :=  0
+                     ))  ->
                 df.confusion
 
           df.confusion[[cols.list$max.signal]] <-
@@ -149,7 +157,8 @@ ComputeSCRC <-
         args = .
       ) ->
       model$specifictiy.bootstrap.table
-    doParallel::registerDoParallel(parallel_cores)
+    #doParallel::registerDoParallel(parallel_cores)
+    doParallel::stopImplicitCluster()
 
    model <-
       CalculateConfusionTable(

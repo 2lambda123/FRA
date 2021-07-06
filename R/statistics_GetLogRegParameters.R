@@ -7,8 +7,9 @@ GetLogRegParameters <-
     response.factor.column = "Y",
     ...
   ){
+    signal_ <-as.name(model$signal)
     data %>%
-      dplyr::filter_(paste(model$signal, "%in%", "signal.list")) ->
+      dplyr::filter(!!signal_ %in% signal.list) ->
       data
 
     response.cols <-
@@ -19,20 +20,20 @@ GetLogRegParameters <-
                              sep = "_")
     colnames(data)[response.cols] <- response.factor
 
+    select_columns_ <- c(signal.factor.column,response.factor)
     data %>%
-      dplyr::rename_(factor_signal_obj = model$signal) %>%
+      dplyr::rename(factor_signal_obj = model$signal) %>%
       dplyr::mutate(
         factor_signal_obj = factor_signal_obj#paste(signal.factor.column, factor_signal_obj, sep = "_")
       ) %>%
-      dplyr::rename_(
-        .dots = setNames(nm = signal.factor.column,
-                         object = "factor_signal_obj")) %>%
-      dplyr::select_(
-        paste("c(",
-              signal.factor.column,
-              ",",
-              paste(response.factor, collapse = ","),
-              ")")) ->
+      dplyr::rename(!!signal.factor.column := "factor_signal_obj") %>%
+      dplyr::select(!!!select_columns_) ->
+      # dplyr::select_(
+      #   paste("c(",
+      #         signal.factor.column,
+      #         ",",
+      #         paste(response.factor, collapse = ","),
+      #         ")")) ->
       data
 
     return(

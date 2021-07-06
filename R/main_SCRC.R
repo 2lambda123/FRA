@@ -78,6 +78,7 @@ FRA <-
         parallel_cores =
           parallel_cores,
         rc_type = "mean",
+        rc.fun = mean,
 
         ...)
 
@@ -87,6 +88,7 @@ FRA <-
         parallel_cores =
           parallel_cores,
         rc_type = "median",
+        rc.fun = median,
         ...)
     return(model)
   }

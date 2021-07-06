@@ -82,23 +82,24 @@ GenerateBootstrapSample.FRAModel <-
 
     doParallel::registerDoParallel(parallel_cores)
     foreach::foreach(bootstrap.i = 1:bootstrap.number) %dopar% {
-
+      signal_ <- as.name(model$signal)
+      signal.list <- sort((model$data %>%
+                  dplyr::distinct(!!signal_))[[model$signal]])
       foreach::foreach(
-        signal_ =
-          (model$data %>%
-             dplyr::distinct_(model$signal))[[model$signal]]) %dopar% {
+        signal.val =
+          signal.list) %dopar% {
                df <-
                  data.frame(
                    bootstrap = bootstrap.i,
                    bootstrap.sample = paste(bootstrap.i,
-                                            signal_,
+                                            signal.val,
                                             1:bootstrap.sample_size,
                                             sep = "_"))
                df[[model$sample]] <-
                  sample(
                    x =
                      (model$data %>%
-                        dplyr::filter_(paste(model$signal, "==" , signal_)))[[model$sample]],
+                        dplyr::filter(!!signal_ == signal.val))[[model$sample]],
                    size = bootstrap.sample_size,
                    replace = TRUE
                  )
