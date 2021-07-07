@@ -125,18 +125,23 @@ rescaleSignalsValues.DataFrame <-
     col.to.rescale = "signal",
     col.rescaled   = "signal_rescaled",
     ...){
-
+    col.to.rescale_ <- as.name(col.to.rescale)
+    col.rescaled_ <- as.name(col.rescaled)
     signal.rescale.df <-
       rescaleSignalsValues(
         signal.list =
           (model$data %>%
-             dplyr::arrange_(col.to.rescale) %>%
-             dplyr::distinct_(col.to.rescale))[[col.to.rescale]],
+             dplyr::arrange(!!col.to.rescale_) %>%
+             dplyr::distinct(!!col.to.rescale_))[[col.to.rescale]],
         ...)
-
+    col_1_ <- as.name(colnames(signal.rescale.df)[1])
+    col_2_ <- as.name(colnames(signal.rescale.df)[2])
     signal.rescale.df %>%
-      dplyr::rename_(
-        .dots = setNames(object = colnames(signal.rescale.df),
-                         nm = c(col.to.rescale, col.rescaled))) %>%
-      return()
+      dplyr::rename(
+        !!col.to.rescale_ := !!col_1_,
+        !!col.rescaled_ := !!col_2_) %>%
+      # dplyr::rename_(
+      #   .dots = setNames(object = colnames(signal.rescale.df),
+      #                    nm = c(col.to.rescale, col.rescaled))) %>%
+       return()
   }
