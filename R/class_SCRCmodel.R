@@ -57,11 +57,12 @@ new_FRAModel <-
       data[["sample"]] <- 1:nrow(data)
       sample <- "sample"
     }
-
+    sample_ <- as.name(sample)
+    signal_ <- as.name(signal)
     model <-
       list(data =
              data %>%
-             dplyr::arrange_(sample, signal) %>%
+             dplyr::arrange(!!sample_, !!signal_) %>%
              data.table::data.table(),
            signal = signal,
            class  = "class",

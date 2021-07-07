@@ -13,8 +13,8 @@ ComputeRC <-
     rc.name <- paste("rc", rc_type, sep = "_")
     rc.sum.name <- paste("rc.sum", rc_type, sep = "_")
     signal.list <- (model$data %>%
-                      dplyr::arrange_(model$signal) %>%
-                      dplyr::distinct_(model$signal))[[model$signal]]
+                      dplyr::arrange(!!signal_) %>%
+                      dplyr::distinct(!!signal_))[[model$signal]]
     
     ### verify rc_type
     doParallel::registerDoParallel(parallel_cores)
